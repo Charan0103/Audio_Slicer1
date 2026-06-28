@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: audio-slicer
+    env: python
+    buildCommand: bash render-build.sh
+    startCommand: gunicorn Backend.Slice_Audio:app

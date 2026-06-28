@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Slicer Pro</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🎵 AUDIO SLICER PRO</h1>
+    <p class="subtitle">Upload and Slice Your Audio Easily</p>
+
+    <form action="/slice" method="POST" enctype="multipart/form-data">
+
+        <input
+            type="file"
+            id="audioFile"
+            name="audio"
+            accept=".mp3,.wav"
+            required>
+
+        <div id="audioInfo">
+            No Audio Selected
+        </div>
+
+        <audio id="player" controls></audio>
+
+        <div class="controls">
+
+            <button type="button" onclick="playAudio()">
+                ▶ Play
+            </button>
+
+            <button type="button" onclick="pauseAudio()">
+                ⏸ Pause
+            </button>
+
+            <button type="button" onclick="stopAudio()">
+                ⏹ Stop
+            </button>
+
+            <button type="button" onclick="resetAudio()">
+                🔄 Reset
+            </button>
+
+        </div>
+
+        <label>Start Time (seconds)</label>
+
+        <input
+            type="number"
+            name="start"
+            min="0"
+            step="0.1"
+            required>
+
+        <label>End Time (seconds)</label>
+
+        <input
+            type="number"
+            name="end"
+            min="0"
+            step="0.1"
+            required>
+
+        <button type="submit" class="slice-btn">
+            ✂ Slice Audio
+        </button>
+
+    </form>
+
+</div>
+
+<script>
+
+const audioFile = document.getElementById("audioFile");
+const player = document.getElementById("player");
+const audioInfo = document.getElementById("audioInfo");
+
+audioFile.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if(file){
+
+        const url = URL.createObjectURL(file);
+
+        player.src = url;
+
+        audioInfo.innerHTML =
+            "🎵 " + file.name +
+            "<br>📦 " +
+            (file.size / (1024 * 1024)).toFixed(2) +
+            " MB";
+    }
+});
+
+function playAudio(){
+    player.play();
+}
+
+function pauseAudio(){
+    player.pause();
+}
+
+function stopAudio(){
+    player.pause();
+    player.currentTime = 0;
+}
+
+function resetAudio(){
+
+    audioFile.value = "";
+    player.pause();
+    player.src = "";
+
+    audioInfo.innerHTML = "No Audio Selected";
+}
+
+</script>
+
+</body>
+</html>
