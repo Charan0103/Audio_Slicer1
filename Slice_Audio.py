@@ -4,12 +4,7 @@ import os
 import webbrowser
 from threading import Timer
 
-app = Flask(
-    __name__,
-    template_folder="../Frontend",
-    static_folder="../Styling",
-    static_url_path="/static"
-)
+app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
